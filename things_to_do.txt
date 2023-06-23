@@ -1,0 +1,2 @@
+../src/packmol < pfoa_slab.inp
+
