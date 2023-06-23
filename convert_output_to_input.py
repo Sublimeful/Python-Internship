@@ -76,7 +76,7 @@ class Converter():
         res.append("")
         for atom_index, atom in enumerate(Converter.atoms):
             s = str(atom_index + 1).ljust(padding)
-            s += str(atom_types_map[atom.type]).ljust(padding)
+            s += str(atom_types_map[atom.type] + 1).ljust(padding)
             s += "0".ljust(padding)
             s += " ".join([str(fpos).ljust(padding) for fpos in atom.position])
             res.append(s)
