@@ -12,6 +12,7 @@ if __name__ == "__main__":
     # Write input file to pfoa_slab.inp
     Generator.write_lines(filepath="pfoa_slab.inp", lines=input_lines)
     # Run packmol
+    #os.system("../packmol/src/packmol < ./pfoa_slab.inp")
     os.system("../src/packmol < ./pfoa_slab.inp")
 
     # Convert packmol output file to new input(output.txt)
@@ -27,3 +28,4 @@ if __name__ == "__main__":
 
     # Write output to file (data_pfoa_water_random.txt)
     Generator.write_lines(filepath="data_pfoa_water_random.txt", lines=output_lines)
+    #Generator.write_lines(filepath="data_pfoa_water.txt", lines=output_lines)
