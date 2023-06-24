@@ -37,7 +37,7 @@ class Parser():
             parts = [part.strip() for part in line.split(" ") if part != ""]
 
             # If the line is not an atom, then ignore the line
-            if parts[0] != "HETATM": continue
+            if parts[0] != "HETATM" and parts[0] != "ATOM": continue
 
             atom_type = f"{parts[2]}_{parts[3]}"
             atom_pos = (float(parts[6]), float(parts[7]), float(parts[8]))
