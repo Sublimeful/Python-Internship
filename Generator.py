@@ -14,11 +14,11 @@ class Generator():
     Generates an input(inp) file for packmol
     """
     @staticmethod
-    def generate_input():
+    def generate_input(filename: str):
         lines = []
         lines.append("seed -1")
         lines.append("tolerance 2.0")
-        lines.append("output pfoa_slab.pdb")
+        lines.append(f"output {filename}_slab.pdb")
         lines.append("filetype pdb")
         lines.append("structure water.pdb")
         lines.append("  number 67")
@@ -64,7 +64,7 @@ class Generator():
         lines.append("  end atoms")
         lines.append("end structure")
         lines.append("")
-        lines.append("structure pfoa.pdb")
+        lines.append(f"structure {filename}.pdb")
         lines.append("  inside cube 0. 0. 0. 100.")
         lines.append("  atoms 12")
         lines.append("    inside box 8.5 5.5 17 9.5 6.5 18")
