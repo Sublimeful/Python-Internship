@@ -32,6 +32,10 @@ class Parser():
     def parse(cls) -> None:
         cls.atoms = []
 
+        # Default the position_offset to 6
+        # because that's often where it is
+        position_offset = 6
+
         for line in cls.lines:
             # Split each line into parts
             parts = [part.strip() for part in line.split(" ") if part != ""]
@@ -40,12 +44,23 @@ class Parser():
             if parts[0] != "HETATM" and parts[0] != "ATOM": continue
 
             atom_type = f"{parts[2]}_{parts[3]}"
-            atom_pos = (float(parts[6]), float(parts[7]), float(parts[8]))
+            atom_pos = None
+            while atom_pos is None:
+                # Normalize the position_offset
+                position_offset %= len(parts) - 2
+                try:
+                    x = float(parts[position_offset])
+                    y = float(parts[position_offset + 1])
+                    z = float(parts[position_offset + 2])
+                    atom_pos = (x, y, z)
+                except ValueError:
+                    # Increase the position_offset
+                    position_offset += 1
             atom = Atom(atom_type, atom_pos)
             cls.atoms.append(atom)
 
         return cls.atoms
-    
+
     """
     Returns list of atoms
     """

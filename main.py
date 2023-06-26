@@ -11,11 +11,7 @@ if __name__ == "__main__":
     # Get user input for filename
     filename: str = input("Filename: ")
 
-    # Generate packmol input file
-    input_lines: List[str] = Generator.generate_input(filename)
-    # Write input file to X_slab.inp
-    Generator.write_lines(filepath=f"{filename}_slab.inp", lines=input_lines)
-    # Run packmol
+    # Run packmol using user provided X_slab.inp and X.pdb
     os.system(f"../packmol/src/packmol < ./{filename}_slab.inp")
 
     # Convert packmol output file to new input(output.txt)
@@ -29,6 +25,5 @@ if __name__ == "__main__":
     Converter.generate()
     output_lines: List[str] = Converter.extract()
 
-    # Write output to file (data_X_water_random.txt)
-    Generator.write_lines(filepath=f"data_{filename}_water_random.txt", lines=output_lines)
-    # Generator.write_lines(filepath=f"data_{filename}_water.txt", lines=output_lines)
+    # Write output to file (data_X_water.txt)
+    Generator.write_lines(filepath=f"data_{filename}_water.txt", lines=output_lines)
