@@ -5,6 +5,14 @@ Contains information about Atoms
 Represents a single atom
 """
 class Atom():
+    index: Dict[str, int] = {
+        "H_HOH": 1,
+        "O_HOH": 2,
+        "C_UNL": 3,
+        "F_UNL": 4,
+        "O_UNL": 5,
+        "H_UNL": 6,
+    }
     names: Dict[str, str] = {
         "H_HOH": "H of water",
         "O_HOH": "O of water",
@@ -42,3 +50,10 @@ class Atom():
     @staticmethod
     def get_mass(atom_type: str) -> float:
         return Atom.masses[atom_type]
+
+    """
+    Returns type index from atom type
+    """
+    @staticmethod
+    def get_index(atom_type: str) -> int:
+        return Atom.index[atom_type]

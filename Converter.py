@@ -22,18 +22,19 @@ class Converter():
         cls.atoms = atoms
         cls.num_of_atoms = len(atoms)
         cls.atom_types = []
-        for atom in atoms:
+
+        for atom in cls.atoms:
             if atom.type not in cls.atom_types:
                 cls.atom_types.append(atom.type)
+
+        # Sort the atom_types array by type index
+        cls.atom_types.sort(key=lambda atom_type: Atom.get_index(atom_type))
 
     """
     Generates output from internal state
     """
     @classmethod
     def generate(cls) -> None:
-        # Temp mapping for atom type to index
-        type_index: [str, int] = {}
-
         # Result string
         res = []
 
@@ -52,9 +53,7 @@ class Converter():
         res.append("Masses")
         res.append("")
         for index, atom_type in enumerate(cls.atom_types):
-            # Initialize type index
-            type_index[atom_type] = index
-            s = f"{index + 1} {Atom.get_mass(atom_type)}".ljust(padding) + " ! "
+            s = f"{Atom.get_index(atom_type)} {Atom.get_mass(atom_type)}".ljust(padding) + " ! "
             s += Atom.get_name(atom_type)
             res.append(s)
         res.append("")
@@ -65,7 +64,7 @@ class Converter():
         res.append("")
         for index, atom in enumerate(cls.atoms):
             s = str(index + 1).ljust(padding)
-            s += str(type_index[atom.type] + 1).ljust(padding)
+            s += str(Atom.get_index(atom.type)).ljust(padding)
             s += "0".ljust(padding)
             s += " ".join([str(fpos).ljust(padding) for fpos in atom.position])
             res.append(s)
