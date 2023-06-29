@@ -35,6 +35,9 @@ class Converter():
     """
     @classmethod
     def generate(cls) -> None:
+        # "Local" mapping from atom type to index
+        type_index: [str, int] = {}
+
         # Result string
         res = []
 
@@ -53,7 +56,9 @@ class Converter():
         res.append("Masses")
         res.append("")
         for index, atom_type in enumerate(cls.atom_types):
-            s = f"{Atom.get_index(atom_type)} {Atom.get_mass(atom_type)}".ljust(padding) + " ! "
+            # Initialize type index
+            type_index[atom_type] = index
+            s = f"{index + 1} {Atom.get_mass(atom_type)}".ljust(padding) + " ! "
             s += Atom.get_name(atom_type)
             res.append(s)
         res.append("")
@@ -64,7 +69,7 @@ class Converter():
         res.append("")
         for index, atom in enumerate(cls.atoms):
             s = str(index + 1).ljust(padding)
-            s += str(Atom.get_index(atom.type)).ljust(padding)
+            s += str(type_index[atom.type] + 1).ljust(padding)
             s += "0".ljust(padding)
             s += " ".join([str(fpos).ljust(padding) for fpos in atom.position])
             res.append(s)
