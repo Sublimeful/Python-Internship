@@ -57,7 +57,7 @@ class Converter():
         res.append("")
         for index, atom_type in enumerate(cls.atom_types):
             # Initialize type index
-            type_index[atom_type] = index
+            type_index[atom_type] = index + 1
             s = f"{index + 1} {Atom.get_mass(atom_type)}".ljust(padding) + " ! "
             s += Atom.get_name(atom_type)
             res.append(s)
@@ -69,7 +69,7 @@ class Converter():
         res.append("")
         for index, atom in enumerate(cls.atoms):
             s = str(index + 1).ljust(padding)
-            s += str(type_index[atom.type] + 1).ljust(padding)
+            s += str(type_index[atom.type]).ljust(padding)
             s += "0".ljust(padding)
             s += " ".join([str(fpos).ljust(padding) for fpos in atom.position])
             res.append(s)
