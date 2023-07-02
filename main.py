@@ -27,3 +27,19 @@ if __name__ == "__main__":
 
     # Write output to file (data_X_water.txt)
     Generator.write_lines(filepath=f"data_{filename}_water.txt", lines=output_lines)
+
+    # 3. Parse poscar_slab.txt
+    Parser.read_file("./poscar_slab.txt")
+    Parser.parse_poscar()
+    atoms: List[Atom] = Parser.extract()
+
+    # 4. Convert to output
+    Converter.analyze(atoms)
+    Converter.generate()
+    output_lines: List[str] = Converter.extract()
+
+    # Write output to file (data_X_water.txt)
+    Generator.write_lines(filepath=f"data_slab.txt", lines=output_lines)
+
+
+

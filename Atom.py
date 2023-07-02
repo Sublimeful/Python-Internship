@@ -12,6 +12,9 @@ class Atom():
         "F_UNL": 4,
         "O_UNL": 5,
         "H_UNL": 6,
+
+        "Si": 101,
+        "O": 102,
     }
     names: Dict[str, str] = {
         "H_HOH": "H of water",
@@ -20,6 +23,9 @@ class Atom():
         "F_UNL": "F of pfoa",
         "O_UNL": "O of pfoa",
         "H_UNL": "H of pfoa",
+
+        "Si": "Silicon",
+        "O": "Oxygen",
     }
     masses: Dict[str, float] = {
         "H_HOH": 1.0078,
@@ -28,6 +34,9 @@ class Atom():
         "F_UNL": 18.998403,
         "O_UNL": 15.9994,
         "H_UNL": 1.0078,
+
+        "Si": 28.0855,
+        "O": 15.9994,
     }
 
     """
