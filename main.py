@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     # 2. Convert list of atoms to list of lines representing output
     Converter.analyze(atoms)
-    Converter.generate()
+    Converter.generate(header="# water and pfoah on sio2 slab")
     output_lines: List[str] = Converter.extract()
 
     # Write output to file (data_X_water.txt)
@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     # 4. Convert to output
     Converter.analyze(atoms)
-    Converter.generate()
+    Converter.generate(header="# sio2 slab  100 facet  4x4x1 supercell made from premitive cell, mp-??????")
     output_lines: List[str] = Converter.extract()
 
     # Write output to file (data_X_water.txt)

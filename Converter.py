@@ -34,7 +34,7 @@ class Converter():
     Generates output from internal state
     """
     @classmethod
-    def generate(cls) -> None:
+    def generate(cls, header: str) -> None:
         # "Local" mapping from atom type to index
         type_index: [str, int] = {}
 
@@ -42,7 +42,7 @@ class Converter():
         res = []
 
         # Header
-        res.append("# water and pfoah on sio2 slab")
+        res.append(header)
         res.append("")
 
         # Atom information
