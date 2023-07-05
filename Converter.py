@@ -6,10 +6,18 @@ Takes a list of Atoms and converts
 it to a list of strings for output
 """
 class Converter():
+    """
+    A class representing optional parameters for the converter
+    """
+    class Options():
+        def __init__(self, z_max: float = 1_000_000.0):
+            self.z_max = z_max
+
     atoms: List[Atom] = None
     num_of_atoms: int = None
     atom_types: List[str] = None
     output: str = None
+    options: Options = Options()
 
     """
     Takes list of Atoms
@@ -19,8 +27,16 @@ class Converter():
     """
     @classmethod
     def analyze(cls, atoms: List[Atom]) -> None:
-        cls.atoms = atoms
-        cls.num_of_atoms = len(atoms)
+        # Filter atoms according to the options set
+        def filter_atoms(atom: Atom) -> bool:
+            # Filter atoms that are greater than the z_max
+            if atom.position[2] > cls.options.z_max:
+                return False
+
+            return True
+
+        cls.atoms = list(filter(filter_atoms, atoms))
+        cls.num_of_atoms = len(cls.atoms)
         cls.atom_types = []
 
         for atom in cls.atoms:

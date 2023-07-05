@@ -33,6 +33,12 @@ if __name__ == "__main__":
     Parser.parse_poscar()
     atoms: List[Atom] = Parser.extract()
 
+    # Get z-max from user
+    z_max: float = float(input("z-max: "))
+
+    # Set options
+    Converter.options = Converter.Options(z_max = z_max)
+
     # 4. Convert to output
     Converter.analyze(atoms)
     Converter.generate(header="# sio2 slab  100 facet  4x4x1 supercell made from premitive cell, mp-??????")
