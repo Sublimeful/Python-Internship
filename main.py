@@ -11,6 +11,9 @@ if __name__ == "__main__":
     # Get user input for filename
     filename: str = input("Filename: ")
 
+    # Get z-max from user
+    z_max: float = float(input("z-max: "))
+
     # Run packmol using user provided X_slab.inp and X.pdb
     os.system(f"../packmol/src/packmol < ./{filename}_slab.inp")
 
@@ -32,9 +35,6 @@ if __name__ == "__main__":
     Parser.read_file("./poscar_slab.txt")
     Parser.parse_poscar()
     atoms: List[Atom] = Parser.extract()
-
-    # Get z-max from user
-    z_max: float = float(input("z-max: "))
 
     # Set options
     Converter.options = Converter.Options(z_max = z_max)
