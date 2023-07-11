@@ -1,11 +1,9 @@
-from typing import List, Tuple, Dict
-
 """
 Contains information about Atoms
 Represents a single atom
 """
 class Atom():
-    index: Dict[str, int] = {
+    index: dict[str, int] = {
         "H_HOH": 1,
         "O_HOH": 2,
         "C_UNL": 3,
@@ -16,7 +14,7 @@ class Atom():
         "Si": 101,
         "O": 102,
     }
-    names: Dict[str, str] = {
+    names: dict[str, str] = {
         "H_HOH": "H of water",
         "O_HOH": "O of water",
         "C_UNL": "C of pfoa",
@@ -27,7 +25,7 @@ class Atom():
         "Si": "Silicon",
         "O": "Oxygen",
     }
-    masses: Dict[str, float] = {
+    masses: dict[str, float] = {
         "H_HOH": 1.0078,
         "O_HOH": 15.9994,
         "C_UNL": 12.011,
@@ -42,7 +40,7 @@ class Atom():
     """
     Constructor
     """
-    def __init__(self, atom_type: str, position: Tuple[float, float, float]):
+    def __init__(self, atom_type: str, position: tuple[float, float, float]):
         self.type = atom_type
         self.position = position
 

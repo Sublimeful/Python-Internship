@@ -1,76 +1,59 @@
-from typing import List, Tuple, Dict
+# Import pymatgen dependancies
+from pymatgen.core.surface import SlabGenerator, Structure, ReconstructionGenerator
+from pymatgen.io.vasp.inputs import Poscar
 
 class Generator():
     """
     Writes newline separated strings to filepath
     """
     @staticmethod
-    def write_lines(filepath: str, lines: List[str]) -> None:
+    def write_lines(filepath: str, lines: list[str]) -> None:
         with open(filepath, "w+") as file:
             file.write("\n".join(lines))
             file.close()
 
     """
-    Generates an input(inp) file for packmol
+    Generates poscar_slab.txt from slab_dimension using TiO2_rutile.cif
     """
     @staticmethod
-    def generate_input(filename: str):
-        lines = []
-        lines.append("seed -1")
-        lines.append("tolerance 2.0")
-        lines.append(f"output {filename}_slab.pdb")
-        lines.append("filetype pdb")
-        lines.append("structure water.pdb")
-        lines.append("  number 67")
-        lines.append("  atoms 1 2 3")
-        lines.append("    over plane 0.0000  0.0000   1.0000   11.5")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2 3")
-        lines.append("    below plane 0.0000  0.0000   1.0000  31.5000")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2 3")
-        lines.append("    below plane 0.0000  -1.0000   0.0000   0.0000")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2 3")
-        lines.append("    over plane 0.0000  -1.0000   0.0000 -12.9327")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2 3")
-        lines.append("    over plane 0.9001  -0.4356  -0.0000   0.0000")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2 3")
-        lines.append("    below plane 0.9001 -0.4356  0.0000 12.5248")
-        lines.append("  end atoms")
-        lines.append("end structure")
-        lines.append("")
-        lines.append("structure hydroxyl.pdb")
-        lines.append("  number 74")
-        lines.append("  atoms 1 2")
-        lines.append("    over plane 0.0000  0.0000   1.0000   11.5")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2")
-        lines.append("    below plane 0.0000  0.0000   1.0000  31.5000")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2")
-        lines.append("    below plane 0.0000  -1.0000   0.0000   0.0000")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2")
-        lines.append("    over plane 0.0000  -1.0000   0.0000 -12.9327")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2")
-        lines.append("    over plane 0.9001  -0.4356  -0.0000   0.0000")
-        lines.append("  end atoms")
-        lines.append("  atoms 1 2")
-        lines.append("    below plane 0.9001 -0.4356  0.0000 12.5248")
-        lines.append("  end atoms")
-        lines.append("end structure")
-        lines.append("")
-        lines.append(f"structure {filename}.pdb")
-        lines.append("  inside cube 0. 0. 0. 100.")
-        lines.append("  atoms 12")
-        lines.append("    inside box 8.5 5.5 17 9.5 6.5 18")
-        lines.append("  end atoms")
-        lines.append("  atoms 1")
-        lines.append("    inside box 0 0 11 20 20 12")
-        lines.append("  end atoms")
-        lines.append("end structure")
-        return lines
+    def make_slab(slab_dimension: list[int, ...]) -> None:
+        ### Slab generator code ###
+        ### by Srishyam Raghavan (02/17/2020) ###
+
+        structure = Structure.from_file("TiO2_rutile.cif")   # import Structure before= this
+        slab = SlabGenerator(structure,(1,1,0),4,25,center_slab=True)  # 2nd is (h,k,l); 3rd is minimum size of layers containing atoms; 4th is minimum vacuum size (both in angstrom)
+        #slabgen = SlabGenerator(structure, (1,1,0), 3, 25, lll_reduce=True)  # 2nd is (h,k,l); 3rd is minimum size of layers containing atoms; 4th is minimum vacuum size (both in angstrom)
+        #P1 = Poscar(slabgen.get_slab(0))
+        #slab = slabgen.get_slab()
+        #slabs = slab.get_slabs()
+        #req_slab = slabs[0].get_orthogonal_c_slab()
+
+        #slab = slabgen.get_slab(1)
+        #req_slab = slab.get_sorted_structure()
+        #req_slab = slab.get_orthogonal_c_slab().get_sorted_structure()
+        #req_slab.get_sorted_structure().to("poscar",filename="POSCAR")
+
+        #slab2=slabs[0]
+        slab1=slab.get_slab()
+        slab2=slab1.get_sorted_structure()
+        #slab2.to("poscar",filename="POSCAR.3")
+        slab3=slab2
+        #slab3=slab2.get_orthogonal_c_slab()
+
+        ### Making POSCAR of unit cell #
+        P1=Poscar(slab3)
+        #P1 = Poscar(req_slab)
+        P2 = P1.get_string(direct=False)
+        file_o = open('POSCAR_unit_cell','w+')
+        file_o.write(P2)
+        file_o.close()
+
+        ### Make Supercell of above ##
+
+        super_slab = Structure.from_file("POSCAR_unit_cell")
+        super_slab.make_supercell(slab_dimension)
+        super_pos = Poscar(super_slab)
+        super_str = super_pos.get_string(direct=False)
+        file_o = open('poscar_slab.txt','w+')
+        file_o.write(super_str)
+        file_o.close()

@@ -1,4 +1,3 @@
-from typing import List, Tuple, Dict
 from Atom import *
 
 """
@@ -13,9 +12,9 @@ class Converter():
         def __init__(self, z_max: float = 1_000_000.0):
             self.z_max = z_max
 
-    atoms: List[Atom] = None
+    atoms: list[Atom] = None
     num_of_atoms: int = None
-    atom_types: List[str] = None
+    atom_types: list[str] = None
     output: str = None
     options: Options = Options()
 
@@ -26,7 +25,7 @@ class Converter():
     stores all atom types (SYMBOL_ORIGIN)
     """
     @classmethod
-    def analyze(cls, atoms: List[Atom]) -> None:
+    def analyze(cls, atoms: list[Atom]) -> None:
         # Filter atoms according to the options set
         def filter_atoms(atom: Atom) -> bool:
             # Filter atoms that are greater than the z_max
@@ -98,5 +97,5 @@ class Converter():
     Representing output generated
     """
     @classmethod
-    def extract(cls) -> List[str]:
+    def extract(cls) -> list[str]:
         return cls.output
