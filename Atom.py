@@ -11,6 +11,7 @@ class Atom():
         "O_UNL": 5,
         "H_UNL": 6,
 
+        "Ti": 100,
         "Si": 101,
         "O": 102,
     }
@@ -22,6 +23,7 @@ class Atom():
         "O_UNL": "O of pfoa",
         "H_UNL": "H of pfoa",
 
+        "Ti": "Titanium",
         "Si": "Silicon",
         "O": "Oxygen",
     }
@@ -33,6 +35,7 @@ class Atom():
         "O_UNL": 15.9994,
         "H_UNL": 1.0078,
 
+        "Ti": 47.867,
         "Si": 28.0855,
         "O": 15.9994,
     }
