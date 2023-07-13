@@ -16,11 +16,11 @@ class Generator():
     Generates poscar_slab.txt from slab_dimension using TiO2_rutile.cif
     """
     @staticmethod
-    def make_slab(slab_dimension: list[int, ...]) -> None:
+    def make_slab(cif_filename: str, slab_dimension: list[int, ...]) -> None:
         ### Slab generator code ###
         ### by Srishyam Raghavan (02/17/2020) ###
 
-        structure = Structure.from_file("TiO2_rutile.cif")   # import Structure before= this
+        structure = Structure.from_file(f"{cif_filename}.cif")   # import Structure before= this
         slab = SlabGenerator(structure,(1,1,0),4,25,center_slab=True)  # 2nd is (h,k,l); 3rd is minimum size of layers containing atoms; 4th is minimum vacuum size (both in angstrom)
         #slabgen = SlabGenerator(structure, (1,1,0), 3, 25, lll_reduce=True)  # 2nd is (h,k,l); 3rd is minimum size of layers containing atoms; 4th is minimum vacuum size (both in angstrom)
         #P1 = Poscar(slabgen.get_slab(0))

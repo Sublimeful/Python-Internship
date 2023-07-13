@@ -8,10 +8,13 @@ import os
 if __name__ == "__main__":
 
     # Get user input for filename
-    filename: str = input("Filename: ")
+    filename: str = input("Filename for input file: ")
 
     # Get z-max from user
     z_max: float = float(input("z-max: "))
+
+    # Get .cif file from user
+    cif_filename: str = input("Filename for .cif file: ")
 
     # Get slab_dimension
     slab_dimension: list[int, ...] = [int(x) for x in input("Enter the slab dimensions (ex: 1 2 3 = 1x2x3): ").split(" ")]
@@ -33,8 +36,8 @@ if __name__ == "__main__":
     # Write output to file (data_X_water.txt)
     Generator.write_lines(filepath=f"data_{filename}_water.txt", lines=output_lines)
 
-    # Generate poscar_slab using slab_dimension
-    Generator.make_slab(slab_dimension)
+    # Generate poscar_slab using cif file and slab_dimension
+    Generator.make_slab(cif_filename=cif_filename, slab_dimension=slab_dimension)
 
     # 3. Parse poscar_slab.txt
     Parser.read_file("./poscar_slab.txt")
