@@ -8,22 +8,33 @@ sys.path.insert(1, '/usr/local/anaconda3/lib/python3.7/site-packages/')
 from pymatgen.core.surface import SlabGenerator, Structure, ReconstructionGenerator
 from pymatgen.io.vasp.inputs import Poscar
 ###
+
 class Generator():
     """
-    Writes newline separated strings to filepath
+    Utility class that specializes in write operations
     """
+
     @staticmethod
     def write_lines(filepath: str, lines: List[str]) -> None:
+        """
+        Writes newline separated strings to filepath
+        @params filepath output file path
+        @params lines list of lines to write
+        @returns None
+        """
         with open(filepath, "w+") as file:
             file.write("\n".join(lines))
             file.close()
 
-    """
-    Generates poscar_slab.txt from slab_dimension using TiO2_rutile.cif
-    """
     @staticmethod
     def make_slab(cif_filename: str, slab_dimension: List) -> None:
-    ##def make_slab(cif_filename: str, slab_dimension: List[int, ...]) -> None:
+        """
+        Generates poscar_slab.txt from slab_dimension using TiO2_rutile.cif
+        @params cif_filename name of the cif file
+        @params slab_dimension list of integers specifying slab dimensions
+        @returns None
+        """
+
         ### Slab generator code ###
         ### by Srishyam Raghavan (02/17/2020) ###
 
@@ -69,10 +80,15 @@ class Generator():
         file_o.write(super_str)
         file_o.close()
 
-    """
-    Parameterize yyyy_slab.inp
-    """
     def make_yyyy_slab_inp(filename: str, first_param: float, second_param: float) -> None:
+        """
+        Parameterize yyyy_slab.inp
+        @params filename name of the output file
+        @params first_param
+        @params second_param
+        @returns None
+        """
+
         res = f"""
             tolerance 2.0
             output pfoah_slab.pdb

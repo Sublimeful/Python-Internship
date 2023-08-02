@@ -1,15 +1,15 @@
 from typing import List, Tuple, Dict
 from Atom import *
 
-"""
-Takes a list of Atoms and converts
-it to a list of strings for output
-"""
 class Converter():
     """
-    A class representing optional parameters for the converter
+    Takes a list of Atoms and converts it to a list of strings for output
     """
+
     class Options():
+        """
+        A class representing optional parameters for the converter
+        """
         def __init__(self, z_max: float = 1_000_000.0):
             self.z_max = z_max
 
@@ -19,14 +19,14 @@ class Converter():
     output: str = None
     options: Options = Options()
 
-    """
-    Takes list of Atoms
-    stores list of atoms
-    stores how many atoms there are
-    stores all atom types (SYMBOL_ORIGIN)
-    """
     @classmethod
     def analyze(cls, atoms: List[Atom]) -> None:
+        """
+        Stores list of atoms, how many atoms there are, and all atom types (SYMBOL_ORIGIN)
+        @params atoms list of Atoms
+        @returns None
+        """
+
         # Filter atoms according to the options set
         def filter_atoms(atom: Atom) -> bool:
             # Filter atoms that are greater than the z_max
@@ -46,13 +46,15 @@ class Converter():
         # Sort the atom_types array by type index
         cls.atom_types.sort(key=lambda atom_type: Atom.get_index(atom_type))
 
-    """
-    Generates output from internal state
-    """
     @classmethod
     def generate(cls, header: str) -> None:
+        """
+        Generates output from internal state
+        @params header line to put at the top of the output file
+        @returns None
+        """
         # "Local" mapping from atom type to index
-        type_index: [str, int] = {}
+        type_index: Dict[str, int] = {}
 
         # Result string
         res = []
@@ -93,10 +95,9 @@ class Converter():
         # Store output
         cls.output = res
 
-    """
-    Returns list of strings
-    Representing output generated
-    """
     @classmethod
     def extract(cls) -> List[str]:
+        """
+        @returns list of strings representing output generated
+        """
         return cls.output

@@ -1,44 +1,21 @@
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Any
 from Atom import *
 
-"""
-Reads lines from a file
-Extracts atoms from each line and returns a list of atoms
-"""
 class Parser():
+    """
+    Reads lines from a file, extracts atoms from each line and returns a list of atoms
+    Also contains utility functions as well
+    """
     lines: List[str] = None
     atoms: List[Atom] = None
 
-    """
-    Extract position from space seperated line representing atom in pdb
-    Returns tuple representing position
-    """
-    @staticmethod
-    def get_position(parts: List[str], default_offset: int) -> Tuple[float, float, float]:
-        # Default the position_offset to default_offset
-        position_offset = default_offset
-
-        atom_pos = None
-        while atom_pos is None:
-            # Normalize the position_offset
-            position_offset %= len(parts) - 2
-            try:
-                x = float(parts[position_offset])
-                y = float(parts[position_offset + 1])
-                z = float(parts[position_offset + 2])
-                atom_pos = (x, y, z)
-            except ValueError:
-                # Increase the position_offset
-                position_offset += 1
-
-        return atom_pos
-
-    """
-    Reads filepath and stores each line in that file
-    Returns list of lines in file
-    """
     @classmethod
     def read_file(cls, filepath: str) -> List[str]:
+        """
+        Reads filepath and stores each line in that file
+        @params filepath
+        @returns list of lines in file
+        """
         cls.lines = []
 
         # Open filepath and extract all the lines from the file
@@ -48,19 +25,21 @@ class Parser():
 
         return cls.lines
 
-    """
-    Get the nth line of the file (0 indexed)
-    """
     @classmethod
     def get_line(cls, n: int) -> str:
+        """
+        Get the nth line of the file (0 indexed)
+        @params n
+        @returns line
+        """
         return cls.lines[n]
 
-    """
-    Parse each line in a pdb file and stores a list of atoms
-    Returns list of atoms in file
-    """
     @classmethod
     def parse(cls) -> List[Atom]:
+        """
+        Parse each line in a pdb file and stores a list of atoms
+        @returns list of atoms in file
+        """
         cls.atoms = []
 
         for line in cls.lines:
@@ -79,12 +58,12 @@ class Parser():
 
         return cls.atoms
     
-    """
-    Parse poscar_slab.txt
-    and stores a list of atoms
-    """
     @classmethod
     def parse_poscar(cls) -> None:
+        """
+        Parse poscar_slab.txt and stores a list of atoms
+        @returns None
+        """
         cls.atoms = []
 
         for line_nr in range(8, len(cls.lines)):
@@ -102,9 +81,52 @@ class Parser():
 
         return cls.atoms
 
-    """
-    Returns list of atoms
-    """
     @classmethod
     def extract(cls) -> List[Atom]:
+        """
+        @returns list of atoms
+        """
         return cls.atoms
+
+    ###
+    ### UTILITY FUNCTIONS
+    ###
+
+    @staticmethod
+    def get_position(parts: List[str], default_offset: int) -> Tuple[float, float, float]:
+        """
+        Extract position from space seperated line representing atom in pdb
+        @params parts parts of a space deliminated line
+        @params default_offset where the algorithm will search first
+        @returns tuple representing position
+        """
+        # Default the position_offset to default_offset
+        position_offset = default_offset
+
+        atom_pos = None
+        while atom_pos is None:
+            # Normalize the position_offset
+            position_offset %= len(parts) - 2
+            try:
+                x = float(parts[position_offset])
+                y = float(parts[position_offset + 1])
+                z = float(parts[position_offset + 2])
+                atom_pos = (x, y, z)
+            except ValueError:
+                # Increase the position_offset
+                position_offset += 1
+
+        return atom_pos
+
+    @staticmethod
+    def read_input_file(filename: str) -> Dict[str, str]:
+        """
+        Parses input file
+        @param filename name of the input file
+        @returns dictionary containing key-value pairs of params
+        """
+        res = {}
+        for line in Parser.read_file(filename):
+            parts = [part.strip() for part in line.split("=") if part != ""]
+            res[parts[0]] = parts[1]
+        return res
