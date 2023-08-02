@@ -13,6 +13,8 @@ class Atom():
         "F_UNL": 4,
         "O_UNL": 5,
         "H_UNL": 6,
+        "Na_UNL": 7,
+        "Cl_UNL": 8,
 
         "Ti": 100,
         "Si": 101,
@@ -26,6 +28,8 @@ class Atom():
         "F_UNL": "F of pfoa",
         "O_UNL": "O of pfoa",
         "H_UNL": "H of pfoa",
+        "Na_UNL": "Na of ion",
+        "Cl_UNL": "Cl of ion",
 
         "Ti": "Titanium",
         "Si": "Silicon",
@@ -39,6 +43,8 @@ class Atom():
         "F_UNL": 18.998403,
         "O_UNL": 15.9994,
         "H_UNL": 1.0078,
+        "Na_UNL": 22.989769,
+        "Cl_UNL": 35.453,
 
         "Ti": 47.867,
         "Si": 28.0855,

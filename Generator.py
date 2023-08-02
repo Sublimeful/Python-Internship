@@ -15,6 +15,18 @@ class Generator():
     """
 
     @staticmethod
+    def write(filepath: str, s: str) -> None:
+        """
+        Writes string s to filepath
+        @params filepath output file path
+        @params s string to write
+        @returns None
+        """
+        with open(filepath, "w+") as file:
+            file.write(s)
+            file.close()
+
+    @staticmethod
     def write_lines(filepath: str, lines: List[str]) -> None:
         """
         Writes newline separated strings to filepath
@@ -80,19 +92,15 @@ class Generator():
         file_o.write(super_str)
         file_o.close()
 
-    def make_yyyy_slab_inp(filename: str, first_param: float, second_param: float) -> None:
+    def get_water_structure(first_param: float, second_param: float) -> str:
         """
-        Parameterize yyyy_slab.inp
-        @params filename name of the output file
+        Parameterize water structure
         @params first_param
         @params second_param
-        @returns None
+        @returns Multiline string for structure
         """
 
-        res = f"""
-            tolerance 2.0
-            output pfoah_slab.pdb
-            filetype pdb
+        return f"""
             structure water.pdb
               number 572
               atoms 1 2
@@ -114,7 +122,19 @@ class Generator():
                 below plane  0.0000    0.0000   1.0000  50
               end atoms
             end structure
-            structure pfoah.pdb
+        """
+
+    def get_yyyy_structure(filename: str, first_param: float, second_param: float) -> str:
+        """
+        Parameterize yyyy structure
+        @params filename
+        @params first_param
+        @params second_param
+        @returns Multiline string for structure
+        """
+
+        return f"""
+            structure {filename}.pdb
               number 10
               atoms 23
                 inside box 0 0 15 {first_param} {second_param} 50
@@ -125,6 +145,109 @@ class Generator():
             end structure
         """
 
-        with open(f"{filename}_slab.inp", "w+") as file:
-            file.write(res)
-            file.close()
+    def get_sodium_structure(number_of_ions: int, first_param: float, second_param: float) -> str:
+        """
+        Parameterize sodium structure
+        @params number_of_ions
+        @params first_param
+        @params second_param
+        @returns Multiline string for structure
+        """
+
+        return f"""
+            structure sodium.pdb
+              number {number_of_ions}
+              atoms 1 2
+                below plane -1.0000  0.0000  0.0000  0.0000
+              end atoms
+              atoms 1 2
+                below plane  0.0000 -1.0000  0.0000  0.0000
+              end atoms
+              atoms 1 2
+                below plane  0.0000  0.0000 -1.0000  -10.0000
+              end atoms
+              atoms 1 2
+                below plane  1.0000  0.0000  0.0000  {first_param}
+              end atoms
+              atoms 1 2
+                below plane  0.0000  1.0000  0.0000  {second_param}
+              end atoms
+              atoms 1 2
+                below plane  0.0000  0.0000  1.0000  50
+              end atoms
+            end structure
+        """
+
+    def get_chlorine_structure(number_of_ions: int, first_param: float, second_param: float) -> str:
+        """
+        Parameterize chlorine structure
+        @params number_of_ions
+        @params first_param
+        @params second_param
+        @returns Multiline string for structure
+        """
+
+        return f"""
+            structure chlorine.pdb
+              number {number_of_ions}
+              atoms 1 2
+                below plane -1.0000  0.0000  0.0000  0.0000
+              end atoms
+              atoms 1 2
+                below plane  0.0000 -1.0000  0.0000  0.0000
+              end atoms
+              atoms 1 2
+                below plane  0.0000  0.0000 -1.0000  -10.0000
+              end atoms
+              atoms 1 2
+                below plane  1.0000  0.0000  0.0000  {first_param}
+              end atoms
+              atoms 1 2
+                below plane  0.0000  1.0000  0.0000  {second_param}
+              end atoms
+              atoms 1 2
+                below plane  0.0000  0.0000  1.0000  50
+              end atoms
+            end structure
+        """
+
+    def make_yyyy_slab_inp(filename: str, first_param: float, second_param: float) -> None:
+        """
+        Parameterize and write yyyy_slab.inp
+        @params filename
+        @params first_param
+        @params second_param
+        @returns None
+        """
+
+        s = f"""
+            tolerance 2.0
+            output {filename}_slab.pdb
+            filetype pdb
+            {Generator.get_water_structure(first_param, second_param)}
+            {Generator.get_yyyy_structure(filename, first_param, second_param)}
+            """
+
+        Generator.write(f"{filename}_slab.inp", s)
+
+    def make_yyyy_slab_ion_inp(filename: str, number_of_ions: int, first_param: float, second_param: float) -> None:
+        """
+        Parameterize and write yyyy_slab_ion.inp
+        @params filename
+        @params number_of_ions
+        @params first_param
+        @params second_param
+        @returns None
+        """
+
+        s = f"""
+            tolerance 2.0
+            output {filename}_slab_ion.pdb
+            filetype pdb
+            {Generator.get_water_structure(first_param, second_param)}
+            {Generator.get_sodium_structure(number_of_ions, first_param, second_param)}
+            {Generator.get_chlorine_structure(number_of_ions, first_param, second_param)}
+            {Generator.get_yyyy_structure(filename, first_param, second_param)}
+            """
+
+        Generator.write(f"{filename}_slab_ion.inp", s)
