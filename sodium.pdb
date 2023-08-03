@@ -1,0 +1,5 @@
+HEADER    sodium
+COMPND
+SOURCE
+HETATM    1 Na   UNL     1      10.203   7.604  12.673
+END

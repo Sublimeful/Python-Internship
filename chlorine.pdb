@@ -1,0 +1,5 @@
+HEADER    chlorine
+COMPND
+SOURCE
+HETATM    1 Cl   UNL     1      10.203   7.604  12.673
+END

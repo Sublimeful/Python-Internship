@@ -88,7 +88,12 @@ class Converter():
         for index, atom in enumerate(cls.atoms):
             s = str(index + 1).ljust(padding)
             s += str(type_index[atom.type]).ljust(padding)
-            s += "0".ljust(padding)
+            if atom.type == "Na_UNL":
+                s += "1".ljust(padding)
+            elif atom.type == "Cl_UNL":
+                s += "-1".ljust(padding)
+            else:
+                s += "0".ljust(padding)
             s += " ".join([str(fpos).ljust(padding) for fpos in atom.position])
             res.append(s)
 
