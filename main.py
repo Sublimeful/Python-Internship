@@ -15,6 +15,9 @@ if __name__ == "__main__":
     filename: str = input_params["filename"]
     cif_filename: str = input_params["cif_filename"]
     packmol_location: str = input_params["packmol_location"]
+    h_min: str = input_params["h_min"]
+    number_of_waters: str = input_params["number_of_waters"]
+    number_of_molecules: str = input_params["number_of_molecules"]
 
     # Generate poscar_slab using cif file and slab_dimension
     Generator.make_slab(cif_filename=cif_filename, slab_dimension=slab_dimension)
@@ -27,7 +30,7 @@ if __name__ == "__main__":
     second_param = float([part.strip() for part in Parser.get_line(3).split(" ") if part != ""][1])
 
     # Generate input file(s) with params
-    Generator.make_yyyy_slab_ion_inp(filename, number_of_ions, first_param, second_param)
+    Generator.make_yyyy_slab_ion_inp(filename, first_param, second_param, h_min, number_of_waters, number_of_molecules, number_of_ions)
 
     # Run packmol on input file(s)
     os.system(f"{packmol_location} < ./{filename}_slab_ion.inp")

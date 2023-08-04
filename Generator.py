@@ -92,17 +92,18 @@ class Generator():
         file_o.write(super_str)
         file_o.close()
 
-    def get_water_structure(first_param: float, second_param: float) -> str:
+    def get_water_structure(first_param: float, second_param: float, number_of_waters: int) -> str:
         """
         Parameterize water structure
         @params first_param
         @params second_param
+        @params number_of_waters
         @returns Multiline string for structure
         """
 
         return f"""
             structure water.pdb
-              number 572
+              number {number_of_waters}
               atoms 1 2
                 below plane -1.0000   0.0000   0.0000   0.0000
               end atoms
@@ -110,7 +111,7 @@ class Generator():
                 below plane  0.0000  -1.0000   0.0000   0.0000
               end atoms
               atoms 1 2
-                below plane  0.0000    0.0000  -1.0000  -10.0000
+                below plane  0.0000    0.0000  -1.0000  -10
               end atoms
               atoms 1 2
                 below plane  1.0000    0.0000   0.0000  {first_param}
@@ -124,33 +125,35 @@ class Generator():
             end structure
         """
 
-    def get_yyyy_structure(filename: str, first_param: float, second_param: float) -> str:
+    def get_yyyy_structure(filename: str, first_param: float, second_param: float, h_min: float, number_of_molecules: int) -> str:
         """
         Parameterize yyyy structure
         @params filename
         @params first_param
         @params second_param
+        @params h_min
+        @params number_of_molecules
         @returns Multiline string for structure
         """
 
         return f"""
             structure {filename}.pdb
-              number 10
+              number {number_of_molecules}
               atoms 23
-                inside box 0 0 15 {first_param} {second_param} 50
+                inside box 0 0 {h_min} {first_param} {second_param} 50
               end atoms
               atoms 25
-                inside box 0 0 15 {first_param} {second_param} 50
+                inside box 0 0 {h_min} {first_param} {second_param} 50
               end atoms
             end structure
         """
 
-    def get_sodium_structure(number_of_ions: int, first_param: float, second_param: float) -> str:
+    def get_sodium_structure(first_param: float, second_param: float, number_of_ions: int) -> str:
         """
         Parameterize sodium structure
-        @params number_of_ions
         @params first_param
         @params second_param
+        @params number_of_ions
         @returns Multiline string for structure
         """
 
@@ -178,12 +181,12 @@ class Generator():
             end structure
         """
 
-    def get_chlorine_structure(number_of_ions: int, first_param: float, second_param: float) -> str:
+    def get_chlorine_structure(first_param: float, second_param: float, number_of_ions: int) -> str:
         """
         Parameterize chlorine structure
-        @params number_of_ions
         @params first_param
         @params second_param
+        @params number_of_ions
         @returns Multiline string for structure
         """
 
@@ -211,12 +214,15 @@ class Generator():
             end structure
         """
 
-    def make_yyyy_slab_inp(filename: str, first_param: float, second_param: float) -> None:
+    def make_yyyy_slab_inp(filename: str, first_param: float, second_param: float, h_min: float, number_of_waters: int, number_of_molecules: int) -> None:
         """
         Parameterize and write yyyy_slab.inp
         @params filename
         @params first_param
         @params second_param
+        @params h_min
+        @params number_of_waters
+        @params number_of_molecules
         @returns None
         """
 
@@ -224,19 +230,22 @@ class Generator():
             tolerance 2.0
             output {filename}_slab.pdb
             filetype pdb
-            {Generator.get_water_structure(first_param, second_param)}
-            {Generator.get_yyyy_structure(filename, first_param, second_param)}
+            {Generator.get_water_structure(first_param, second_param, number_of_waters)}
+            {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}
             """
 
         Generator.write(f"{filename}_slab.inp", s)
 
-    def make_yyyy_slab_ion_inp(filename: str, number_of_ions: int, first_param: float, second_param: float) -> None:
+    def make_yyyy_slab_ion_inp(filename: str, first_param: float, second_param: float, h_min: float, number_of_waters: int, number_of_molecules: int, number_of_ions: int) -> None:
         """
         Parameterize and write yyyy_slab_ion.inp
         @params filename
-        @params number_of_ions
         @params first_param
         @params second_param
+        @params h_min
+        @params number_of_waters
+        @params number_of_molecules
+        @params number_of_ions
         @returns None
         """
 
@@ -244,10 +253,10 @@ class Generator():
             tolerance 2.0
             output {filename}_slab_ion.pdb
             filetype pdb
-            {Generator.get_water_structure(first_param, second_param)}
-            {Generator.get_sodium_structure(number_of_ions, first_param, second_param)}
-            {Generator.get_chlorine_structure(number_of_ions, first_param, second_param)}
-            {Generator.get_yyyy_structure(filename, first_param, second_param)}
+            {Generator.get_water_structure(first_param, second_param, number_of_waters)}
+            {Generator.get_sodium_structure(first_param, second_param, number_of_ions)}
+            {Generator.get_chlorine_structure(first_param, second_param, number_of_ions)}
+            {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}
             """
 
         Generator.write(f"{filename}_slab_ion.inp", s)
