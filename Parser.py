@@ -127,6 +127,8 @@ class Parser():
         """
         res = {}
         for line in Parser.read_file(filename):
-            parts = [part.strip() for part in line.split("=") if part != ""]
+            s = line.split("#")[0]  # ignore comments
+            if s.count("=") != 1: continue  # Ignore lines that start with a # or does not contain exactly one =
+            parts = [part.strip() for part in s.split("=") if part != ""]
             res[parts[0]] = parts[1]
         return res
