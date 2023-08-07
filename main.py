@@ -9,9 +9,9 @@ from Atom import *
 if __name__ == "__main__":
     # Read input file and extract input params
     input_params = Parser.read_input_file("input.txt")
-    z_max: float = literal_eval(input_params["z_max"])
-    number_of_ions: int = literal_eval(input_params["number_of_ions"])
-    slab_dimension: List = literal_eval(input_params["slab_dimension"])
+    z_max: float = float(eval(input_params["z_max"]))
+    number_of_ions: int = int(eval(input_params["number_of_ions"]))
+    slab_dimension: List = eval(input_params["slab_dimension"])
     filename: str = input_params["filename"]
     cif_filename: str = input_params["cif_filename"]
     packmol_location: str = input_params["packmol_location"]
