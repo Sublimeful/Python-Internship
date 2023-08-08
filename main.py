@@ -10,14 +10,14 @@ if __name__ == "__main__":
     # Read input file and extract input params
     input_params = Parser.read_input_file("input.txt")
     z_max: float = float(eval(input_params["z_max"]))
+    h_min: float = float(eval(input_params["h_min"]))
     number_of_ions: int = int(eval(input_params["number_of_ions"]))
+    number_of_waters: int = int(eval(input_params["number_of_waters"]))
+    number_of_molecules: int = int(eval(input_params["number_of_molecules"]))
     slab_dimension: List = eval(input_params["slab_dimension"])
     filename: str = input_params["filename"]
     cif_filename: str = input_params["cif_filename"]
     packmol_location: str = input_params["packmol_location"]
-    h_min: str = input_params["h_min"]
-    number_of_waters: str = input_params["number_of_waters"]
-    number_of_molecules: str = input_params["number_of_molecules"]
 
     # Generate poscar_slab using cif file and slab_dimension
     Generator.make_slab(cif_filename=cif_filename, slab_dimension=slab_dimension)
