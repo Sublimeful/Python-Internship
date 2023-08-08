@@ -46,7 +46,7 @@ if __name__ == "__main__":
     output_lines: List[str] = Converter.extract()
 
     # Write output to file
-    Generator.write_lines(filepath=f"data_{filename}_water_ion.txt", lines=output_lines)
+    Generator.write_lines(filepath=f"data_{filename}_water{'_ion' if number_of_ions > 0 else ''}.txt", lines=output_lines)
 
     # Parse poscar_slab.txt
     Parser.read_file("./poscar_slab.txt")

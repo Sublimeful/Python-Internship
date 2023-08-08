@@ -1,9 +1,15 @@
 filename = pfoah
-z_max =  9.23 
-cif_filename = SiO2.cif
-slab_dimension = [4,4,1]
-packmol_location = ../../packmol/src/packmol
-number_of_ions = 10
+z_max =  9.23
 h_min = 10.0
-number_of_waters = 572
+cif_filename = SiO2.cif
+packmol_location = ../packmol/src/packmol
 number_of_molecules = 10
+#slab_dimension = [4,4,1]
+slab_dimension = [8,8,1]
+#
+#number_of_waters = 200
+#number_of_waters = 800
+#number_of_waters = 572 # this is some comment
+number_of_waters = 572*4
+#number_of_ions = 10
+number_of_ions = 0

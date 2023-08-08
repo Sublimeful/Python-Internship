@@ -254,8 +254,8 @@ class Generator():
             output {filename}_slab_ion.pdb
             filetype pdb
             {Generator.get_water_structure(first_param, second_param, number_of_waters)}
-            {Generator.get_sodium_structure(first_param, second_param, number_of_ions)}
-            {Generator.get_chlorine_structure(first_param, second_param, number_of_ions)}
+            {Generator.get_sodium_structure(first_param, second_param, number_of_ions) if number_of_ions > 0 else ''}
+            {Generator.get_chlorine_structure(first_param, second_param, number_of_ions) if number_of_ions > 0 else ''}
             {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}
             """
 
