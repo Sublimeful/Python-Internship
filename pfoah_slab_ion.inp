@@ -1,5 +1,6 @@
 
-            tolerance 2.0
+            seed -1
+            tolerance 2.2
             output pfoah_slab_ion.pdb
             filetype pdb
             

@@ -227,7 +227,8 @@ class Generator():
         """
 
         s = f"""
-            tolerance 2.0
+            seed -1
+            tolerance 2.2
             output {filename}_slab.pdb
             filetype pdb
             {Generator.get_water_structure(first_param, second_param, number_of_waters)}
@@ -250,7 +251,8 @@ class Generator():
         """
 
         s = f"""
-            tolerance 2.0
+            seed -1
+            tolerance 2.2
             output {filename}_slab_ion.pdb
             filetype pdb
             {Generator.get_water_structure(first_param, second_param, number_of_waters)}

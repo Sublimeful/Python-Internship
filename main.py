@@ -1,3 +1,6 @@
+# how to run this code:
+# python3.7 main.py < input.txt
+#
 import os
 from ast import literal_eval
 from typing import List, Tuple, Dict
