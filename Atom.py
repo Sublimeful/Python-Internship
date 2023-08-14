@@ -16,9 +16,9 @@ class Atom():
         "Na_UNL": 7,
         "Cl_UNL": 8,
 
-        "Ti": 100,
-        "Si": 101,
-        "O": 102,
+        "Ti": 9,
+        "Si": 10,
+        "O": 11,
     }
 
     names: Dict[str, str] = {
@@ -85,6 +85,13 @@ class Atom():
         """
         return Atom.index[atom_type]
 
+    @staticmethod
+    def get_type(atom_type_index: int) -> str:
+        """
+        @param atom_type_index
+        @returns atom type from type index
+        """
+        return list(Atom.index.keys())[atom_type_index - 1]
 
 
 

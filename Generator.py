@@ -8,11 +8,20 @@ sys.path.insert(1, '/usr/local/anaconda3/lib/python3.7/site-packages/')
 from pymatgen.core.surface import SlabGenerator, Structure, ReconstructionGenerator
 from pymatgen.io.vasp.inputs import Poscar
 ###
+from Atom import *
 
 class Generator():
     """
     Utility class that specializes in write operations
     """
+
+    @staticmethod
+    def multiline_strip(s: str) -> str:
+        """
+        Strips a multiline string on every newline
+        @param s the multiline string
+        """
+        return "\n".join(map(lambda line: line.strip(), s.split("\n")))
 
     @staticmethod
     def write(filepath: str, s: str) -> None:
@@ -92,6 +101,7 @@ class Generator():
         file_o.write(super_str)
         file_o.close()
 
+    @staticmethod
     def get_water_structure(first_param: float, second_param: float, number_of_waters: int) -> str:
         """
         Parameterize water structure
@@ -101,8 +111,8 @@ class Generator():
         @returns Multiline string for structure
         """
 
-        return f"""
-            structure water.pdb
+        return Generator.multiline_strip(
+        f"""structure water.pdb
               number {number_of_waters}
               atoms 1 2
                 below plane -1.0000   0.0000   0.0000   0.0000
@@ -122,9 +132,9 @@ class Generator():
               atoms 1 2
                 below plane  0.0000    0.0000   1.0000  50
               end atoms
-            end structure
-        """
+            end structure""")
 
+    @staticmethod
     def get_yyyy_structure(filename: str, first_param: float, second_param: float, h_min: float, number_of_molecules: int) -> str:
         """
         Parameterize yyyy structure
@@ -136,8 +146,8 @@ class Generator():
         @returns Multiline string for structure
         """
 
-        return f"""
-            structure {filename}.pdb
+        return Generator.multiline_strip(
+        f"""structure {filename}.pdb
               number {number_of_molecules}
               atoms 23
                 inside box 0 0 {h_min} {first_param} {second_param} 50
@@ -145,9 +155,9 @@ class Generator():
               atoms 25
                 inside box 0 0 {h_min} {first_param} {second_param} 50
               end atoms
-            end structure
-        """
+            end structure""")
 
+    @staticmethod
     def get_sodium_structure(first_param: float, second_param: float, number_of_ions: int) -> str:
         """
         Parameterize sodium structure
@@ -157,8 +167,8 @@ class Generator():
         @returns Multiline string for structure
         """
 
-        return f"""
-            structure sodium.pdb
+        return Generator.multiline_strip(
+        f"""structure sodium.pdb
               number {number_of_ions}
               atoms 1 2
                 below plane -1.0000  0.0000  0.0000  0.0000
@@ -178,9 +188,9 @@ class Generator():
               atoms 1 2
                 below plane  0.0000  0.0000  1.0000  50
               end atoms
-            end structure
-        """
+            end structure""")
 
+    @staticmethod
     def get_chlorine_structure(first_param: float, second_param: float, number_of_ions: int) -> str:
         """
         Parameterize chlorine structure
@@ -190,8 +200,8 @@ class Generator():
         @returns Multiline string for structure
         """
 
-        return f"""
-            structure chlorine.pdb
+        return Generator.multiline_strip(
+        f"""structure chlorine.pdb
               number {number_of_ions}
               atoms 1 2
                 below plane -1.0000  0.0000  0.0000  0.0000
@@ -211,9 +221,9 @@ class Generator():
               atoms 1 2
                 below plane  0.0000  0.0000  1.0000  50
               end atoms
-            end structure
-        """
+            end structure""")
 
+    @staticmethod
     def make_yyyy_slab_inp(filename: str, first_param: float, second_param: float, h_min: float, number_of_waters: int, number_of_molecules: int) -> None:
         """
         Parameterize and write yyyy_slab.inp
@@ -226,17 +236,17 @@ class Generator():
         @returns None
         """
 
-        s = f"""
-            seed -1
+        s = Generator.multiline_strip(
+        f"""seed -1
             tolerance 2.2
             output {filename}_slab.pdb
             filetype pdb
             {Generator.get_water_structure(first_param, second_param, number_of_waters)}
-            {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}
-            """
+            {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}""")
 
         Generator.write(f"{filename}_slab.inp", s)
 
+    @staticmethod
     def make_yyyy_slab_ion_inp(filename: str, first_param: float, second_param: float, h_min: float, number_of_waters: int, number_of_molecules: int, number_of_ions: int) -> None:
         """
         Parameterize and write yyyy_slab_ion.inp
@@ -250,15 +260,44 @@ class Generator():
         @returns None
         """
 
-        s = f"""
-            seed -1
+        s = Generator.multiline_strip(
+        f"""seed -1
             tolerance 2.2
             output {filename}_slab_ion.pdb
             filetype pdb
             {Generator.get_water_structure(first_param, second_param, number_of_waters)}
             {Generator.get_sodium_structure(first_param, second_param, number_of_ions) if number_of_ions > 0 else ''}
             {Generator.get_chlorine_structure(first_param, second_param, number_of_ions) if number_of_ions > 0 else ''}
-            {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}
-            """
+            {Generator.get_yyyy_structure(filename, first_param, second_param, h_min, number_of_molecules)}""")
 
         Generator.write(f"{filename}_slab_ion.inp", s)
+
+    @staticmethod
+    def make_output(atoms: List[Atom]) -> None:
+        """
+        Generate an output file
+        @param atoms list of atoms
+        @returns None
+        """
+
+        index_of_waters = [i for i, atom in enumerate(atoms) if "water" in Atom.get_name(atom.type)]
+        x1 = index_of_waters[0] + 1
+        x2 = index_of_waters[-1] + 1
+
+        index_of_ions = [i for i, atom in enumerate(atoms) if "ion" in Atom.get_name(atom.type)]
+        y1 = index_of_ions[0] + 1
+        y2 = index_of_ions[-1] + 1
+        
+        index_of_molecules = [i for i, atom in enumerate(atoms) if "pfoa" in Atom.get_name(atom.type)]
+        z1 = index_of_molecules[0] + 1
+        z2 = index_of_molecules[-1] + 1
+
+        s = Generator.multiline_strip(
+        f"""first index of waters = {x1}
+            last index of waters = {x2}
+            first index of ions = {y1}
+            last index of ions = {y2}
+            first index of molecules = {z1}
+            last index of molecules = {z2}""")
+
+        Generator.write(f"output.txt", s)

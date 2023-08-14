@@ -57,7 +57,30 @@ class Parser():
             cls.atoms.append(atom)
 
         return cls.atoms
-    
+
+    @classmethod
+    def parse_data(cls) -> None:
+        """
+        Parse a data_X.txt file and stores a list of atoms
+        @returns None
+        """
+        cls.atoms = []
+
+        masses_index = cls.lines.index("Masses")
+        atoms_index = cls.lines.index("Atoms")
+
+        for line_nr in range(atoms_index + 2, len(cls.lines)):
+            line: str = cls.lines[line_nr]
+
+            # Split each line into parts
+            parts = [part.strip() for part in line.split(" ") if part != ""]
+            # Default offset is 3, because that's often where it is
+            atom_pos = cls.get_position(parts, default_offset=3)
+            atom_type = Atom.get_type(int(parts[1]))
+
+            atom = Atom(atom_type, atom_pos)
+            cls.atoms.append(atom)
+
     @classmethod
     def parse_poscar(cls) -> None:
         """

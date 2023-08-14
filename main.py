@@ -65,5 +65,11 @@ if __name__ == "__main__":
     # Write output to file
     Generator.write_lines(filepath=f"data_slab.txt", lines=output_lines)
 
+    # parse data file and write output.txt
+    Parser.read_file(f"data_{filename}_water_ion.txt")
+    Parser.parse_data()
+    atoms = Parser.extract()
+    Generator.make_output(atoms)
+
 
 

@@ -1,0 +1,6 @@
+first index of waters = 1
+last index of waters = 6864
+first index of ions = 6865
+last index of ions = 6964
+first index of molecules = 6965
+last index of molecules = 7224

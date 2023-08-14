@@ -1,42 +1,36 @@
+seed -1
+tolerance 2.2
+output pfoah_slab_ion.pdb
+filetype pdb
+structure water.pdb
+number 2288
+atoms 1 2
+below plane -1.0000   0.0000   0.0000   0.0000
+end atoms
+atoms 1 2
+below plane  0.0000  -1.0000   0.0000   0.0000
+end atoms
+atoms 1 2
+below plane  0.0000    0.0000  -1.0000  -10
+end atoms
+atoms 1 2
+below plane  1.0000    0.0000   0.0000  39.32800000000001
+end atoms
+atoms 1 2
+below plane  0.0000    1.0000   0.0000  43.2432
+end atoms
+atoms 1 2
+below plane  0.0000    0.0000   1.0000  50
+end atoms
+end structure
 
-            seed -1
-            tolerance 2.2
-            output pfoah_slab_ion.pdb
-            filetype pdb
-            
-            structure water.pdb
-              number 2288
-              atoms 1 2
-                below plane -1.0000   0.0000   0.0000   0.0000
-              end atoms
-              atoms 1 2
-                below plane  0.0000  -1.0000   0.0000   0.0000
-              end atoms
-              atoms 1 2
-                below plane  0.0000    0.0000  -1.0000  -10
-              end atoms
-              atoms 1 2
-                below plane  1.0000    0.0000   0.0000  39.32800000000001
-              end atoms
-              atoms 1 2
-                below plane  0.0000    1.0000   0.0000  43.2432
-              end atoms
-              atoms 1 2
-                below plane  0.0000    0.0000   1.0000  50
-              end atoms
-            end structure
-        
-            
-            
-            
-            structure pfoah.pdb
-              number 10
-              atoms 23
-                inside box 0 0 10.0 39.32800000000001 43.2432 50
-              end atoms
-              atoms 25
-                inside box 0 0 10.0 39.32800000000001 43.2432 50
-              end atoms
-            end structure
-        
-            
+
+structure pfoah.pdb
+number 10
+atoms 23
+inside box 0 0 10.0 39.32800000000001 43.2432 50
+end atoms
+atoms 25
+inside box 0 0 10.0 39.32800000000001 43.2432 50
+end atoms
+end structure
