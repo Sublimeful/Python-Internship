@@ -35,16 +35,28 @@ class Parser():
         return cls.lines[n]
 
     @classmethod
-    def parse(cls) -> List[Atom]:
+    def clear_atoms(cls):
+        """
+        Clears the atoms list
+        @returns None
+        """
+        cls.atoms = []
+
+    @classmethod
+    def parse_pdb(cls, append = False) -> List[Atom]:
         """
         Parse each line in a pdb file and stores a list of atoms
         @returns list of atoms in file
         """
-        cls.atoms = []
+        if not append:
+            cls.atoms = []
 
         for line in cls.lines:
             # Split each line into parts
             parts = [part.strip() for part in line.split(" ") if part != ""]
+
+            # If the line is empty then continue
+            if len(parts) == 0: continue
 
             # If the line is not an atom, then ignore the line
             if parts[0] != "HETATM" and parts[0] != "ATOM": continue
@@ -54,7 +66,6 @@ class Parser():
             atom_type = f"{parts[2]}_{parts[3]}"
 
             try:
-                print(parts, line)
                 # Charge is always preceded by the same value as parts[2]
                 atom_charge = float(parts[-1]) if parts[-2] == parts[2] else 0
             except:
@@ -66,12 +77,13 @@ class Parser():
         return cls.atoms
 
     @classmethod
-    def parse_data(cls) -> None:
+    def parse_data(cls, append = False) -> None:
         """
         Parse a data_X.txt file and stores a list of atoms
         @returns None
         """
-        cls.atoms = []
+        if not append:
+            cls.atoms = []
 
         masses_index = cls.lines.index("Masses")
         atoms_index = cls.lines.index("Atoms")
@@ -89,12 +101,13 @@ class Parser():
             cls.atoms.append(atom)
 
     @classmethod
-    def parse_poscar(cls) -> None:
+    def parse_poscar(cls, append = False) -> None:
         """
         Parse poscar_slab.txt and stores a list of atoms
         @returns None
         """
-        cls.atoms = []
+        if not append:
+            cls.atoms = []
 
         for line_nr in range(8, len(cls.lines)):
             line: str = cls.lines[line_nr]

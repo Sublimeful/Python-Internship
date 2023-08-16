@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     # Parse output file to list of atoms
     Parser.read_file(f"./{filename}_slab_ion.pdb")
-    Parser.parse()
+    Parser.parse_pdb()
     atoms: List[Atom] = Parser.extract()
 
     # Convert list of atoms to list of lines representing output
@@ -65,11 +65,33 @@ if __name__ == "__main__":
     # Write output to file
     Generator.write_lines(filepath=f"data_slab.txt", lines=output_lines)
 
+    # transfer the charges from pfoah.pdb, hydroxyl.pdb, water.pdb, sodium.pdb, and chlorine.pdb to data_pfoah_water.txt or data_pfoah_water_ion.txt
+    Parser.clear_atoms();
+    Parser.read_file("pfoah.pdb");
+    Parser.parse_pdb(append=True);
+    Parser.read_file("hydroxyl.pdb");
+    Parser.parse_pdb(append=True);
+    Parser.read_file("water.pdb");
+    Parser.parse_pdb(append=True);
+    Parser.read_file("sodium.pdb");
+    Parser.parse_pdb(append=True);
+    Parser.read_file("chlorine.pdb");
+    Parser.parse_pdb(append=True);
+
+    atoms = Parser.extract()
+
+    # Convert to output
+    Converter.options = Converter.Options(z_max = z_max)
+    Converter.analyze(atoms)
+    Converter.generate(header="# sio2 slab  100 facet  4x4x1 supercell made from premitive cell, mp-??????")
+    output_lines: List[str] = Converter.extract()
+
+    # Write output to file
+    Generator.write_lines(filepath=f"data_pfoah_water_ion.txt", lines=output_lines)
+
     # parse data file and write output.txt
     Parser.read_file(f"data_{filename}_water_ion.txt")
     Parser.parse_data()
     atoms = Parser.extract()
     Generator.make_output(atoms)
-
-
 
