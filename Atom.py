@@ -51,7 +51,7 @@ class Atom():
         "O": 15.9994,
     }
 
-    def __init__(self, atom_type: str, position: Tuple[float, float, float]):
+    def __init__(self, atom_type: str, position: Tuple[float, float, float], charge = 0.0):
         """
         Constructor for Atom
         @param atom_type type of the atom
@@ -60,6 +60,7 @@ class Atom():
         """
         self.type = atom_type
         self.position = position
+        self.charge = charge
 
     @staticmethod
     def get_name(atom_type: str) -> str:

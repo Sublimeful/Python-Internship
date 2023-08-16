@@ -53,7 +53,14 @@ class Parser():
             atom_pos = cls.get_position(parts, default_offset=6)
             atom_type = f"{parts[2]}_{parts[3]}"
 
-            atom = Atom(atom_type, atom_pos)
+            try:
+                print(parts, line)
+                # Charge is always preceded by the same value as parts[2]
+                atom_charge = float(parts[-1]) if parts[-2] == parts[2] else 0
+            except:
+                atom_charge = 0
+
+            atom = Atom(atom_type, atom_pos, atom_charge)
             cls.atoms.append(atom)
 
         return cls.atoms

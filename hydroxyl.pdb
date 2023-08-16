@@ -1,7 +1,7 @@
 HEADER    hydroxyl
 COMPND
 SOURCE
-HETATM    1  H   HOH     1       9.626   6.787  12.673
-HETATM    2  O   HOH     1      10.203   7.604  12.673
+HETATM    1  H   HOH     1       9.626   6.787  12.673  1.00  0.00           H  0.2528
+HETATM    2  O   HOH     1      10.203   7.604  12.673  1.00  0.00           O -0.2528
 CONECT    1    2
 END
