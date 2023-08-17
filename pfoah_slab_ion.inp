@@ -3,7 +3,7 @@ tolerance 2.2
 output pfoah_slab_ion.pdb
 filetype pdb
 structure water.pdb
-number 2288
+number 572
 atoms 1 2
 below plane -1.0000   0.0000   0.0000   0.0000
 end atoms
@@ -14,23 +14,63 @@ atoms 1 2
 below plane  0.0000    0.0000  -1.0000  -10
 end atoms
 atoms 1 2
-below plane  1.0000    0.0000   0.0000  39.32800000000001
+below plane  1.0000    0.0000   0.0000  19.664000000000005
 end atoms
 atoms 1 2
-below plane  0.0000    1.0000   0.0000  43.2432
+below plane  0.0000    1.0000   0.0000  21.6216
 end atoms
 atoms 1 2
 below plane  0.0000    0.0000   1.0000  50
 end atoms
 end structure
-
-
+structure sodium.pdb
+number 10
+atoms 1 2
+below plane -1.0000  0.0000  0.0000  0.0000
+end atoms
+atoms 1 2
+below plane  0.0000 -1.0000  0.0000  0.0000
+end atoms
+atoms 1 2
+below plane  0.0000  0.0000 -1.0000  -10.0000
+end atoms
+atoms 1 2
+below plane  1.0000  0.0000  0.0000  19.664000000000005
+end atoms
+atoms 1 2
+below plane  0.0000  1.0000  0.0000  21.6216
+end atoms
+atoms 1 2
+below plane  0.0000  0.0000  1.0000  50
+end atoms
+end structure
+structure chlorine.pdb
+number 10
+atoms 1 2
+below plane -1.0000  0.0000  0.0000  0.0000
+end atoms
+atoms 1 2
+below plane  0.0000 -1.0000  0.0000  0.0000
+end atoms
+atoms 1 2
+below plane  0.0000  0.0000 -1.0000  -10.0000
+end atoms
+atoms 1 2
+below plane  1.0000  0.0000  0.0000  19.664000000000005
+end atoms
+atoms 1 2
+below plane  0.0000  1.0000  0.0000  21.6216
+end atoms
+atoms 1 2
+below plane  0.0000  0.0000  1.0000  50
+end atoms
+end structure
 structure pfoah.pdb
 number 10
 atoms 23
-inside box 0 0 10.0 39.32800000000001 43.2432 50
+inside box 0 0 10.0 19.664000000000005 21.6216 50
 end atoms
 atoms 25
-inside box 0 0 10.0 39.32800000000001 43.2432 50
+inside box 0 0 10.0 19.664000000000005 21.6216 50
 end atoms
 end structure

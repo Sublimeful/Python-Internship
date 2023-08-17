@@ -51,6 +51,9 @@ class Parser():
         if not append:
             cls.atoms = []
 
+        # If the pdb is built with packmol then the position will usually be at 6, otherwise it is 5
+        default_offset = 6 if len(cls.lines) > 1 and "Built with Packmol" in cls.lines[1] else 5
+
         for line in cls.lines:
             # Split each line into parts
             parts = [part.strip() for part in line.split(" ") if part != ""]
@@ -61,8 +64,7 @@ class Parser():
             # If the line is not an atom, then ignore the line
             if parts[0] != "HETATM" and parts[0] != "ATOM": continue
 
-            # Default offset is 6, because that's often where it is
-            atom_pos = cls.get_position(parts, default_offset=6)
+            atom_pos = cls.get_position(parts, default_offset)
             atom_type = f"{parts[2]}_{parts[3]}"
 
             try:
@@ -93,6 +95,7 @@ class Parser():
 
             # Split each line into parts
             parts = [part.strip() for part in line.split(" ") if part != ""]
+
             # Default offset is 3, because that's often where it is
             atom_pos = cls.get_position(parts, default_offset=3)
             atom_type = Atom.get_type(int(parts[1]))
@@ -115,7 +118,7 @@ class Parser():
             # Split each line into parts
             parts = [part.strip() for part in line.split(" ") if part != ""]
 
-            # Default offset is 0, because that's often where it is
+            # Always start from 0 when finding position here
             atom_pos = cls.get_position(parts, default_offset=0)
             atom_type = parts[3]
 
@@ -136,7 +139,7 @@ class Parser():
     ###
 
     @staticmethod
-    def get_position(parts: List[str], default_offset: int) -> Tuple[float, float, float]:
+    def get_position(parts: List[str], default_offset: int = 0) -> Tuple[float, float, float]:
         """
         Extract position from space seperated line representing atom in pdb
         @params parts parts of a space deliminated line

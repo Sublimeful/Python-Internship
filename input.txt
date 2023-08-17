@@ -4,12 +4,6 @@ h_min = 10.0
 cif_filename = SiO2.cif
 packmol_location = ../packmol/src/packmol
 number_of_molecules = 10
-#slab_dimension = [4,4,1]
-slab_dimension = [8,8,1]
-#
-#number_of_waters = 200
-#number_of_waters = 800
-#number_of_waters = 572 # this is some comment
-number_of_waters = 572*4
-#number_of_ions = 10
-number_of_ions = 0
+slab_dimension = [4,4,1]
+number_of_waters = 572
+number_of_ions = 10
