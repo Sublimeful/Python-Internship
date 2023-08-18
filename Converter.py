@@ -82,14 +82,15 @@ class Converter():
         res.append("")
 
         # Atoms
-        padding = 7
+        padding = 10
         res.append("Atoms")
         res.append("")
         for index, atom in enumerate(cls.atoms):
             s = str(index + 1).ljust(padding)
             s += str(type_index[atom.type]).ljust(padding)
-            s += str(round(atom.charge, 3)).ljust(padding)
-            s += " ".join([str(round(fpos, 3)).ljust(padding) for fpos in atom.position])
+            charge = Atom.get_charge(atom.type)
+            s += f"{' ' if charge >= 0 else ''}{charge:.4f}".ljust(padding)
+            s += " ".join([f"{' ' if fpos >= 0 else ''}{fpos:.4f}".ljust(padding) for fpos in atom.position])
             res.append(s)
 
         # Store output

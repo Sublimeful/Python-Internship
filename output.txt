@@ -1,6 +1,6 @@
 first index of waters = 1
-last index of waters = 2027
+last index of waters = 1716
 first index of ions = 1717
-last index of ions = 2029
+last index of ions = 1736
 first index of molecules = 1737
-last index of molecules = 2022
+last index of molecules = 1996

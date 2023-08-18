@@ -51,6 +51,21 @@ class Atom():
         "O": 15.9994,
     }
 
+    charges: Dict[str, float] = {
+        "H_HOH": 0,
+        "O_HOH": 0,
+        "C_UNL": 0,
+        "F_UNL": 0,
+        "O_UNL": 0,
+        "H_UNL": 0,
+        "Na_UNL": 0,
+        "Cl_UNL": 0,
+
+        "Ti": 0,
+        "Si": 0,
+        "O": 0,
+    }
+
     def __init__(self, atom_type: str, position: Tuple[float, float, float], charge = 0.0):
         """
         Constructor for Atom
@@ -94,5 +109,22 @@ class Atom():
         """
         return list(Atom.index.keys())[atom_type_index - 1]
 
+    @staticmethod
+    def set_charge(atom_type: str, charge: float) -> None:
+        """
+        Sets the charge of a type of atom
+        @param atom_type
+        @param charge
+        @returns None
+        """
+        Atom.charges[atom_type] = charge
+
+    @staticmethod
+    def get_charge(atom_type: str) -> float:
+        """
+        @param atom_type
+        @returns atom charge from atom type
+        """
+        return Atom.charges[atom_type]
 
 

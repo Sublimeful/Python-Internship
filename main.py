@@ -37,12 +37,9 @@ if __name__ == "__main__":
 
     # Run packmol on input file(s)
     os.system(f"{packmol_location} < ./{filename}_slab_ion.inp")
-    
-    # Parse output file to list of atoms
-    Parser.read_file(f"./{filename}_slab_ion.pdb")
-    Parser.parse_pdb()
 
-    # transfer the charges from pfoah.pdb, hydroxyl.pdb, water.pdb, sodium.pdb, and chlorine.pdb to data_pfoah_water.txt or data_pfoah_water_ion.txt
+    # transfer the charges from pfoah.pdb, hydroxyl.pdb, water.pdb, sodium.pdb, and chlorine.pdb
+    Parser.clear_atoms();
     Parser.read_file("pfoah.pdb");
     Parser.parse_pdb(append=True);
     Parser.read_file("hydroxyl.pdb");
@@ -53,7 +50,17 @@ if __name__ == "__main__":
     Parser.parse_pdb(append=True);
     Parser.read_file("chlorine.pdb");
     Parser.parse_pdb(append=True);
+    atoms = Parser.extract()
+    for atom_type in Atom.charges.keys():
+        Atom.set_charge(atom_type, 0)
+    for atom in atoms:
+        charge_A = Atom.get_charge(atom.type);
+        charge_B = atom.charge;
+        Atom.set_charge(atom.type, charge_A if abs(charge_A) > abs(charge_B) else charge_B)
 
+    # Parse output file to list of atoms
+    Parser.read_file(f"./{filename}_slab_ion.pdb")
+    Parser.parse_pdb()
     atoms = Parser.extract()
 
     # Convert list of atoms to list of lines representing output
